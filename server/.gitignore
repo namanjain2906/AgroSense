@@ -1,0 +1,52 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build output
+/dist
+/build
+
+# IDE/editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Misc
+*.swp
+*.bak
+*.tmp
+
+# Coverage
+coverage/
+
+# Database
+*.sqlite
+*.db
+
+# Ignore config secrets
+configs/*.local.js
+configs/*.secret.js
+
+# Ignore uploads
+uploads/
+
+# Ignore test output
+/test-output
