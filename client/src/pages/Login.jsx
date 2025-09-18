@@ -21,7 +21,7 @@ const Login = () => {
     if (isSignup) {
       // Signup flow
       try {
-        const res = await fetch('http://localhost:3000/api/register', {
+        const res = await fetch('https://agrosense-server.vercel.app/api/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, firstName, lastName, email, password })
@@ -29,7 +29,7 @@ const Login = () => {
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Signup failed');
         // After signup, try login automatically
-        const loginRes = await fetch('http://localhost:3000/api/login', {
+        const loginRes = await fetch('https://agrosense-server.vercel.app/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })
@@ -46,7 +46,7 @@ const Login = () => {
     } else {
       // Login flow
       try {
-        const res = await fetch('http://localhost:3000/api/login', {
+        const res = await fetch('https://agrosense-server.vercel.app/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password })

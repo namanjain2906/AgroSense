@@ -31,7 +31,7 @@ const MyFarm = () => {
       setHistoryLoading(true);
       setHistoryError(null);
       try {
-        const res = await axios.get('/api/crops/user', {
+        const res = await axios.get('https://agrosense-server.vercel.app/api/crops/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
         const crops = res.data.crops || [];
@@ -64,7 +64,7 @@ const MyFarm = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get("/api/myfarm/user", {
+        const res = await axios.get("https://agrosense-server.vercel.app/api/myfarm/user", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFarm(res.data);
@@ -310,7 +310,7 @@ function AddCropForm({ token }) {
         lastWatered: form.lastWatered || undefined,
         harvestDate: form.harvestDate || undefined,
       };
-      await axios.post('/api/crops', payload, {
+      await axios.post('https://agrosense-server.vercel.app/api/crops', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSuccess('Crop added successfully!');

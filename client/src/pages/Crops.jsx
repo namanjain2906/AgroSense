@@ -7,7 +7,7 @@ const Crops = () => {
 
   const getCrops = async () => {
     try {
-      const { data } = await axios.get("/api/crops/cropdata");
+      const { data } = await axios.get("https://agrosense-server.vercel.app/api/crops/cropdata");
 
       if (data.success) {
         setCrops(data.message);

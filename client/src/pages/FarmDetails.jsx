@@ -24,7 +24,7 @@ const FarmDetails = () => {
       return;
     }
     try {
-      const res = await fetch('/api/myfarm', {
+      const res = await fetch('https://agrosense-server.vercel.app/api/myfarm', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

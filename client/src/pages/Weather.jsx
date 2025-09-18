@@ -15,7 +15,7 @@ const Weather = () => {
       setError(null);
       try {
         // Get user's farm info
-        const farmRes = await axios.get('/api/myfarm/user', {
+          const farmRes = await axios.get('https://agrosense-server.vercel.app/api/myfarm/user', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setFarm(farmRes.data);
