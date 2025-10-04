@@ -1,10 +1,9 @@
-
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAppContext } from '../context/AppContext.jsx';
 
 const FarmDetails = () => {
-  const { user, token } = useContext(AuthContext);
+  const { user, token } = useAppContext();
   const [form, setForm] = useState({
     farmName: '',
     location: '',
@@ -56,21 +55,52 @@ const FarmDetails = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#101613] p-6">
-      <div className="bg-gradient-to-br from-green-950 via-green-900 to-green-800 rounded-2xl shadow-lg p-8 max-w-md w-full flex flex-col gap-6 border border-green-900">
-        <h2 className="text-center text-green-200 mb-4 font-bold text-2xl">Add Farm Details</h2>
+    <div className="min-h-screen flex items-center py-25 justify-center  p-6">
+      <div className="rounded-2xl  p-8 max-w-md w-full flex flex-col gap-6 ">
+        <h2 className="text-center  mb-4 font-bold text-2xl">Add Farm Details</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label className='text-green-300'>Farm Name</label>
-          <input name="farmName" value={form.farmName} onChange={handleChange} placeholder="Farm Name" required className="p-3 rounded-lg border border-green-800 text-base outline-none w-full bg-green-950 text-green-100 focus:border-green-400 transition" />
-          <label className='text-green-300'>Location</label>
-          <input name="location" value={form.location} onChange={handleChange} placeholder="Location" required className="p-3 rounded-lg border border-green-800 text-base outline-none w-full bg-green-950 text-green-100 focus:border-green-400 transition" />
-          <label className='text-green-300'>Land size in acres</label>
-          <input name="size" value={form.size} onChange={handleChange} placeholder="Size (acres)" type="number" required className="p-3 rounded-lg border border-green-800 text-base outline-none w-full bg-green-950 text-green-100 focus:border-green-400 transition" />
-          <label className='text-green-300'>Soil Type</label>
-          <input name="soilType" value={form.soilType} onChange={handleChange} placeholder="Soil Type" required className="p-3 rounded-lg border border-green-800 text-base outline-none w-full bg-green-950 text-green-100 focus:border-green-400 transition" />
-          <label className='text-green-300'>Irrigation Type</label>
-          <input name="irrigationType" value={form.irrigationType} onChange={handleChange} placeholder="Irrigation Type" required className="p-3 rounded-lg border border-green-800 text-base outline-none w-full bg-green-950 text-green-100 focus:border-green-400 transition" />
-          <button type="submit" className="bg-gradient-to-tr from-green-800 to-green-700 text-green-50 rounded-lg py-3 font-semibold hover:bg-green-700 hover:text-green-200 transition text-base border border-green-900 shadow">Add Farm</button>
+          <label className=''>Farm Name</label>
+          <input name="farmName" value={form.farmName} onChange={handleChange} placeholder="Farm Name" required className="p-3 rounded-lg border  text-base outline-none w-full transition" />
+          <label className=''>Location</label>
+          <input name="location" value={form.location} onChange={handleChange} placeholder="Location" required className="p-3 rounded-lg border  text-base outline-none w-full  transition" />
+          <label className=''>Land size in acres</label>
+          <input name="size" value={form.size} onChange={handleChange} placeholder="Size (acres)" type="number" required className="p-3 rounded-lg border  w-full  transition" />
+          <label className=''>Soil Type</label>
+          <select
+            name="soilType"
+            value={form.soilType}
+            onChange={handleChange}
+            required
+            className="p-3 rounded-lg border text-base w-full transition"
+          >
+            <option value="">Select Soil Type</option>
+            <option value="Laterite soil">Laterite soil</option>
+            <option value="Alluvial soil">Alluvial soil</option>
+            <option value="Red soil">Red soil</option>
+            <option value="Peat soil">Peat soil</option>
+            <option value="Acid saline soil">Acid saline soil</option>
+            <option value="Black cotton soil">Black cotton soil</option>
+            <option value="Forest soil">Forest soil</option>
+            <option value="Coastal alluvial soil">Coastal alluvial soil</option>
+          </select>
+          <label className=''>Irrigation Type</label>
+          <select
+            name="irrigationType"
+            value={form.irrigationType}
+            onChange={handleChange}
+            required
+            className="p-3 rounded-lg border text-base w-full transition"
+          >
+            <option value="">Select Irrigation Type</option>
+            <option value="Flood irrigation">Flood irrigation</option>
+            <option value="Basin irrigation">Basin irrigation</option>
+            <option value="Lift irrigation">Lift irrigation</option>
+            <option value="Canal irrigation">Canal irrigation</option>
+            <option value="Drip irrigation">Drip irrigation</option>
+            <option value="Sprinkler irrigation">Sprinkler irrigation</option>
+            <option value="Traditional systems">Traditional systems</option>
+          </select>
+          <button type="submit" className="text-white bg-green-600 rounded-lg py-3 font-semibold hover:bg-green-800  transition text-base border ">Add Farm</button>
         </form>
         {message && <p className={`text-center font-medium mt-2 ${message.includes('success') ? 'text-green-400' : 'text-green-300'}`}>{message}</p>}
       </div>

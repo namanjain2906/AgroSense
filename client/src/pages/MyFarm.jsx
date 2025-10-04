@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
+import { useAppContext } from "../context/AppContext";
 import { toast } from 'react-hot-toast';
 import {
   FaLeaf,
@@ -10,6 +9,7 @@ import {
   FaTractor,
   FaSeedling,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const tabs = [
   { label: "Farm Details", icon: <FaTractor /> },
@@ -20,87 +20,24 @@ const tabs = [
 
 const MyFarm = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const { token } = useContext(AuthContext);
-  const [farm, setFarm] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentCrops, setCurrentCrops] = useState([]);
-  const [cropsLoading, setCropsLoading] = useState(false);
-  const [cropsError, setCropsError] = useState(null);
-  const [historyCrops, setHistoryCrops] = useState([]);
-  const [historyLoading, setHistoryLoading] = useState(false);
-  const [historyError, setHistoryError] = useState(null);
-  // Fetch current crops for the logged-in user
-  useEffect(() => {
-    const fetchCrops = async () => {
-      setCropsLoading(true);
-      setCropsError(null);
-      setHistoryLoading(true);
-      setHistoryError(null);
-      try {
-        const res = await axios.get(
-          "https://agrosense-server.vercel.app/api/crops/user",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const crops = res.data.crops || [];
-        const today = dayjs();
-        // Current crops: growing (today between sowingDate and harvestDate)
-        const currentFiltered = crops.filter((crop) => {
-          const sowing = crop.sowingDate ? dayjs(crop.sowingDate) : null;
-          const harvest = crop.harvestDate ? dayjs(crop.harvestDate) : null;
-          return (
-            sowing &&
-            harvest &&
-            today.isAfter(sowing) &&
-            today.isBefore(harvest)
-          );
-        });
-        setCurrentCrops(currentFiltered);
-        // History crops: harvested (today after harvestDate)
-        const historyFiltered = crops.filter((crop) => {
-          const harvest = crop.harvestDate ? dayjs(crop.harvestDate) : null;
-          return harvest && today.isAfter(harvest);
-        });
-        setHistoryCrops(historyFiltered);
-      } catch (err) {
-        const errorMsg = err.response?.data?.error || err.message;
-        setCropsError(errorMsg);
-        setHistoryError(errorMsg);
-        toast.error(errorMsg);
-      }
-      setCropsLoading(false);
-      setHistoryLoading(false);
-    };
-    if (token) fetchCrops();
-  }, [token]);
+  const { token, farmDetails, currentCrops, pastCrops } = useAppContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchFarm = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await axios.get(
-          "https://agrosense-server.vercel.app/api/myfarm/user",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setFarm(res.data);
-      } catch (err) {
-        const errorMsg = err.response?.data?.error || err.message;
-        setError(errorMsg);
-        toast.error(errorMsg);
-      }
-      setLoading(false);
-    };
-    if (token) fetchFarm();
-  }, [token]);
+    if (!token) {
+      toast.error("You must be logged in to view your farm");
+      navigate("/login");
+    } else if (!farmDetails) {
+      toast.error("Please add your farm details first");
+      navigate("/farm-details");
+    }
+  }, [token, farmDetails, navigate]);
 
   return (
-    <div className="min-h-screen pt-25  flex flex-col md:flex-row">
+    <div className="min-h-screen pt-25 flex flex-col  md:flex-row">
+      {/* Sidebar */}
       <aside className="w-full md:w-64 flex flex-col md:flex-col items-center py-0 md:py-8 border-b md:border-b-0 md:border-r">
+        {/* Mobile: horizontal navbar */}
         <div className="flex md:hidden w-full items-center justify-between px-2 py-2  border-b">
           <nav className="flex gap-2">
             {tabs.map((tab, idx) => (
@@ -157,57 +94,52 @@ const MyFarm = () => {
           </nav>
         </div>
       </aside>
-
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center">
         <div className="w-full h-full">
           {activeTab === 0 && (
-            <div className="p-4 md:p-8">
+            <div className="p-4  md:p-8">
               <h2 className="text-lg md:text-2xl font-bold mb-2 md:mb-4 flex items-center">
-                
                 Farm Details
               </h2>
-              {loading && (
+              {!farmDetails && (
                 <div className="text-base text-center">Loading...</div>
               )}
-              {error && (
-                <div className="text-center">{error}</div>
-              )}
-              {farm && (
+              {farmDetails && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                   <div className="rounded-xl p-4 shadow">
                     <div className="font-semibold mb-2">
                       Farm Name
                     </div>
-                    <div className="text-lg">{farm.farmName}</div>
+                    <div className="text-lg">{farmDetails.farmName}</div>
                   </div>
                   <div className="rounded-xl p-4 shadow">
                     <div className="font-semibold mb-2">
                       Location
                     </div>
-                    <div className="text-lg">{farm.location}</div>
+                    <div className="text-lg">{farmDetails.location}</div>
                   </div>
                   <div className="rounded-xl p-4 shadow">
                     <div className="font-semibold mb-2">
                       Size (acres)
                     </div>
-                    <div className="text-lg">{farm.size}</div>
+                    <div className="text-lg">{farmDetails.size}</div>
                   </div>
                   <div className="rounded-xl p-4 shadow">
                     <div className="font-semibold mb-2">
                       Soil Type
                     </div>
-                    <div className="text-lg">{farm.soilType}</div>
+                    <div className="text-lg">{farmDetails.soilType}</div>
                   </div>
                   <div className="rounded-xl p-4 shadow">
                     <div className="font-semibold mb-2">
                       Irrigation Type
                     </div>
-                    <div className="text-lg">{farm.irrigationType}</div>
+                    <div className="text-lg">{farmDetails.irrigationType}</div>
                   </div>
                 </div>
               )}
-              {!loading && !farm && !error && (
+              {!farmDetails && (
                 <div className="text-center">
                   No farm data found for this user.
                 </div>
@@ -220,22 +152,19 @@ const MyFarm = () => {
                 <FaLeaf className="mr-2" />
                 Current Crops
               </h2>
-              {cropsLoading && (
+              {!currentCrops && (
                 <div className="text-base text-center">Loading...</div>
               )}
-              {cropsError && (
-                <div className="text-center">{cropsError}</div>
-              )}
-              {!cropsLoading && currentCrops.length === 0 && !cropsError && (
+              {currentCrops && currentCrops.length === 0 && (
                 <div className="text-center ">
                   No current crops found.
                 </div>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-                {currentCrops.map((crop) => (
+                {currentCrops && currentCrops.map((crop) => (
                   <div
                     key={crop._id}
-                    className="  p-6 shadow-xl  relative overflow-hidden"
+                    className="p-6 shadow-xl relative overflow-hidden"
                   >
                     <div className="absolute top-4 right-4 flex gap-2">
                       <span
@@ -364,31 +293,25 @@ const MyFarm = () => {
               </div>
             </div>
           )}
-
           {activeTab === 2 && (
             <div className="p-4 md:p-8 ">
               <h2 className="text-lg md:text-2xl font-bold mb-4 flex items-center">
                 <FaHistory className="mr-2" />
                 Crop History
               </h2>
-              {historyLoading && (
+              {!pastCrops && (
                 <div className="text-base text-center">Loading...</div>
               )}
-              {historyError && (
-                <div className=" text-center">{historyError}</div>
+              {pastCrops && pastCrops.length === 0 && (
+                <div className="text-center ">
+                  No harvested crops found.
+                </div>
               )}
-              {!historyLoading &&
-                historyCrops.length === 0 &&
-                !historyError && (
-                  <div className="text-center ">
-                    No harvested crops found.
-                  </div>
-                )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-                {historyCrops.map((crop) => (
+                {pastCrops && pastCrops.map((crop) => (
                   <div
                     key={crop._id}
-                    className=" p-6 shadow-xl  border  relative overflow-hidden"
+                    className="p-6 shadow-xl border relative overflow-hidden"
                   >
                     <div className="absolute top-4 right-4 flex gap-2">
                       <span
@@ -570,11 +493,15 @@ function AddCropForm({ token }) {
         lastWatered: form.lastWatered || undefined,
         harvestDate: form.harvestDate || undefined,
       };
-      await axios.post(
+      await fetch(
         "https://agrosense-server.vercel.app/api/crops",
-        payload,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
         }
       );
       setSuccess("Crop added successfully!");
@@ -595,9 +522,8 @@ function AddCropForm({ token }) {
         status: "Planted",
       });
     } catch (err) {
-      const errorMsg = err.response?.data?.error || err.message;
-      setError(errorMsg);
-      toast.error(errorMsg);
+      setError("Error adding crop");
+      toast.error("Error adding crop");
     }
     setLoading(false);
   };
@@ -746,6 +672,5 @@ function Input({ label, name, value, onChange, type = "text", required }) {
     </div>
   );
 }
-// (Removed duplicate closing tags and braces)
 
 export default MyFarm;

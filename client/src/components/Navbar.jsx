@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAppContext } from '../context/AppContext.jsx';
 import {
   CircleUserRound,
   MapPin,
@@ -13,7 +13,7 @@ import {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user } = useAppContext();
 
     return (
     <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center py-2 sm:py-5 px-2 sm:px-6 md:px-16 lg:px-36 backdrop-blur bg-transparent">
@@ -22,7 +22,7 @@ const Navbar = () => {
       </Link>
 
       <div
-        className={`max-md:absolute top-0 left-0 backdrop-blur max-md:font-medium max-md:text-base md:py-3 md:px-6 max-md:gap-4 md:gap-3 lg:gap-16 bg-black/70 max-md:h-screen flex flex-col md:flex-row justify-center items-center min-md:rounded-full md:border md:bg-white/10 md:border-gray-300/20 overflow-hidden transition-[width] duration-300
+        className={`max-md:absolute top-0 left-0 backdrop-blur max-md:font-medium max-md:text-base md:py-3 md:px-6 max-md:gap-4 md:gap-3 lg:gap-16 bg-black/70 max-md:h-screen flex flex-col md:flex-row justify-center items-center min-md:rounded-full md:border-2 border-gray-400 md:bg-white/10  overflow-hidden transition-[width] duration-300
         ${isOpen ? "max-md:w-full" : "max-md:w-0"}`}
       >
         <XIcon
