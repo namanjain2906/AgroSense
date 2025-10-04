@@ -21,6 +21,7 @@ app.use(express.json());
 
 app.use('/api/myfarm', myfarmRouter);
 app.use('/api/gemini', geminiRouter);
+app.use('/api/crops', cropRouter);
 
 
 app.get('/', (req, res) => {
@@ -79,7 +80,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.use('/api/crops', cropRouter);
+
 
 app.listen(port, () => {
   console.log(`Server is running at port ${port}`);

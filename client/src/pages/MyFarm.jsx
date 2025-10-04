@@ -828,11 +828,11 @@ function EditCropForm({ token, initialValues, onClose }) {
         onClose();
       } else {
         setError(data.error || "Error updating crop");
-        toast.error(data.error || "Error updating crop");
+        toast.error(data.error || "bb");
       }
     } catch (err) {
       setError("Error updating crop");
-      toast.error("Error updating crop");
+      toast.error("cc");
     }
     setLoading(false);
   };

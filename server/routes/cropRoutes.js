@@ -1,6 +1,7 @@
 import express from 'express';
 import { getCropData, createCrop } from '../controllers/cropController.js';
 import jwt from 'jsonwebtoken';
+import Crops from '../models/Crops.js';
 
 const cropRouter = express.Router();
 
@@ -23,5 +24,28 @@ cropRouter.get('/cropdata', getCropData);
 import { getUserCrops } from '../controllers/cropController.js';
 cropRouter.get('/user', authenticate, getUserCrops);
 cropRouter.post('/', authenticate, createCrop);
+cropRouter.put('/crops/:id', async (req, res) => {
+  try {
+	// Get userId from JWT (assuming you use authentication middleware)
+	const userId = req.user?._id || req.user?.id;
+	if (!userId) {
+	  return res.status(401).json({ error: 'Unauthorized' });
+	}
+
+	// Find the crop and ensure it belongs to the user
+	const crop = await Crops.findOne({ _id: req.params.id, user: userId });
+	if (!crop) {
+	  return res.status(404).json({ error: 'Crop not found for this user' });
+	}
+
+	// Update the crop
+	Object.assign(crop, req.body);
+	await crop.save();
+
+	res.json(crop);
+  } catch (err) {
+	res.status(500).json({ error: 'Server error' });
+  }
+});
 
 export default cropRouter;
