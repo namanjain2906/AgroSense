@@ -1,25 +1,26 @@
 import React from "react";
+import { toast } from 'react-hot-toast';
 
 const CropCard = ({ CropImage,CropName,CropType, CropDescription, SoilType,OptimalSoilPH, MinimumTemp, MaximumTemp, MinimumRainfall, CommonPests, CommonDiseases}) => {
   return (
-  <div className="bg-gradient-to-br from-green-950 via-green-900 to-green-800 flex flex-col sm:flex-row mb-10 w-full rounded-xl p-3 sm:p-5 shadow-xl border border-green-900">
+  <div className="bg-green-400 flex flex-col sm:flex-row mb-10 w-full rounded-xl p-3 sm:p-5 shadow-xl border border-green-900">
       <img
         className="object-contain h-40 sm:h-55 w-full sm:w-1/2 rounded-xl"
         src={CropImage}
         alt="crop image"
       />
       <div className="flex flex-col gap-2 m-3 sm:m-5 w-full">
-        <p className="text-lg sm:text-2xl font-bold text-green-300">{CropName}</p>
-        <p className="text-sm sm:text-base text-green-200">Crop Type: {CropType}</p>
+        <p className="text-lg sm:text-2xl font-bold text-green-900">{CropName}</p>
+        <p className="text-sm sm:text-base text-green-700 font-semibold">Crop Type: <span className="text-white font-normal">{CropType}</span></p>
         <div>
-          <span className="text-sm sm:text-base mr-2 text-green-100">Minimum Temperature: {MinimumTemp}</span>
-          <span className="text-sm sm:text-base mr-2 text-green-100">Maximum Temperature: {MaximumTemp}</span>
+          <span className="text-sm sm:text-base mr-2 text-green-700 font-semibold">Minimum Temperature: <span className="text-white font-normal">{MinimumTemp}</span></span>
+          <span className="text-sm sm:text-base mr-2 text-green-700 font-semibold">Maximum Temperature: <span className="text-white font-normal">{MaximumTemp}</span></span>
         </div>
         <div>
-          <span className="text-sm sm:text-base mr-2 text-green-100">Soil Type: {SoilType}</span>
-          <span className="text-sm sm:text-base mr-2 text-green-100">Optimal Soil pH: {OptimalSoilPH}</span>
+          <span className="text-sm sm:text-base mr-2 text-green-700 font-semibold">Soil Type: <span className="text-white font-normal">{SoilType}</span></span>
+          <span className="text-sm sm:text-base mr-2 text-green-700 font-semibold">Optimal Soil pH: <span className="text-white font-normal">{OptimalSoilPH}</span></span>
         </div>
-        <p className="text-xs sm:text-base text-green-100">{CropDescription}</p>
+        <p className="text-xs sm:text-base text-white">{CropDescription}</p>
       </div>
     </div>
   );

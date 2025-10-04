@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { toast } from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ const Login = () => {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Signup failed');
+        toast.success('Signup successful!');
         // After signup, try login automatically
         const loginRes = await fetch('https://agrosense-server.vercel.app/api/login', {
           method: 'POST',
@@ -36,10 +38,12 @@ const Login = () => {
         });
         const loginData = await loginRes.json();
         if (!loginRes.ok) throw new Error(loginData.message || 'Login after signup failed');
-  login(loginData.user, loginData.token);
-  navigate('/');
+        login(loginData.user, loginData.token);
+        toast.success('Login successful!');
+        navigate('/');
       } catch (err) {
         setError(err.message);
+        toast.error(err.message);
       } finally {
         setLoading(false);
       }
@@ -53,10 +57,12 @@ const Login = () => {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Login failed');
-  login(data.user, data.token);
-  navigate('/');
+        login(data.user, data.token);
+        toast.success('Login successful!');
+        navigate('/');
       } catch (err) {
         setError(err.message);
+        toast.error(err.message);
       } finally {
         setLoading(false);
       }

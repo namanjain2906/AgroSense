@@ -1,4 +1,5 @@
 import React from 'react'
+import { toast } from 'react-hot-toast';
 import videoBanner from '../assets/Video Banner Stock Videos - Rural Farming Agriculture Nature.mp4';
 
 const HeroSection = () => {
@@ -10,6 +11,7 @@ const HeroSection = () => {
         autoPlay
         loop
         muted
+        
       />
       {/* Dark overlay */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/60 pointer-events-none flex justify-center items-center text-center">

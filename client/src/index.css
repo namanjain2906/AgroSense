@@ -1,46 +1,17 @@
 @import "tailwindcss";
 
- :root {
+:root {
   --color-primary: #1a2a1a; /* Very dark green for backgrounds */
-  --color-primary-dull: #101613; /* Even darker green for backgrounds */
-  --color-primary-light: #2e4732; /* Muted dark green for cards */
-  --color-primary-dark: #0a0f0a; /* Nearly black green for deepest backgrounds */
-  --color-accent: #3ba96f; /* Muted green accent */
-  --color-accent-dull: #14532d; /* Deep green accent */
-  --color-text-main: #e5ffe5; /* Light greenish text */
-  --color-text-muted: #b6e3b6; /* Muted green text */
+  --color-primary-dull: #ffffff;
 }
 
-*{
+* {
   font-family: "Outfit", sans-serif;
   scrollbar-width: thin;
   scrollbar-color: #787777 #1e1e1e;
 }
 
 body {
-  color: var(--color-text-main);
-  background-color: var(--color-primary-dark);
-}
-
-/* Universal dark backgrounds for all containers */
-.bg-dark-green {
-  background-color: var(--color-primary) !important;
-}
-.bg-darker-green {
-  background-color: var(--color-primary-dull) !important;
-}
-.bg-card-green {
-  background-color: var(--color-primary-light) !important;
-}
-.text-green-main {
-  color: var(--color-text-main) !important;
-}
-.text-green-muted {
-  color: var(--color-text-muted) !important;
-}
-.border-green-dark {
-  border-color: var(--color-accent-dull) !important;
-}
-.accent-green {
-  color: var(--color-accent) !important;
+  color: black;
+  background-color: white;
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from 'react-hot-toast';
 import CropCard from "../components/CropCard";
 import axios from "axios";
 
@@ -11,9 +12,12 @@ const Crops = () => {
 
       if (data.success) {
         setCrops(data.message);
+        toast.success('Crops loaded successfully!');
+      } else {
+        toast.error(data.error || 'Failed to load crops');
       }
     } catch (err) {
-      console.log(err);
+      toast.error(err.response?.data?.error || err.message);
     }
   };
 

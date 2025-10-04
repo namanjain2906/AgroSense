@@ -1,5 +1,6 @@
 
 import React, { useState, useContext } from 'react';
+import { toast } from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext.jsx';
 
 const FarmDetails = () => {
@@ -21,6 +22,7 @@ const FarmDetails = () => {
     e.preventDefault();
     if (!user || !user.id) {
       setMessage('You must be logged in to add a farm.');
+      toast.error('You must be logged in to add a farm.');
       return;
     }
     try {
@@ -35,6 +37,7 @@ const FarmDetails = () => {
       const data = await res.json();
       if (res.ok) {
         setMessage('Farm details added successfully!');
+        toast.success('Farm details added successfully!');
         setForm({
           farmName: '',
           location: '',
@@ -44,9 +47,11 @@ const FarmDetails = () => {
         });
       } else {
         setMessage(data.error || 'Error adding farm details');
+        toast.error(data.error || 'Error adding farm details');
       }
     } catch (err) {
       setMessage('Server error');
+      toast.error('Server error');
     }
   };
 

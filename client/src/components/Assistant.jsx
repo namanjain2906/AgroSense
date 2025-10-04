@@ -11,7 +11,7 @@ const Assistant = () => {
   return (
     <button
       onClick={handleClick}
-      className="bg-orange-400 cursor-pointer h-20 w-20 rounded-full fixed bottom-10 right-10 flex justify-center items-center"
+      className="bg-orange-400 z-100 cursor-pointer h-20 w-20 rounded-full fixed bottom-10 right-10 flex justify-center items-center"
     >
       <FaRobot className="text-white" size={40} />
     </button>

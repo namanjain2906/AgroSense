@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/AuthContext.jsx';
 import {
@@ -92,6 +93,12 @@ const Navbar = () => {
         <Link
           to="/profile"
           className="px-3 py-1 sm:px-6 sm:py-2 border border-green-600 rounded-lg text-green-400 hover:bg-green-600 hover:text-white transition duration-200 ml-2 sm:ml-4 text-xs sm:text-base "
+          onClick={e => {
+            if (!user) {
+              e.preventDefault();
+              toast.error('You must be logged in to view your profile');
+            }
+          }}
         >
           My Profile
         </Link>
