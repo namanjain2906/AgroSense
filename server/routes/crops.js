@@ -808,7 +808,6 @@ function EditCropForm({ token, initialValues, onClose }) {
         return;
       }
 
-      // Fix: Use correct endpoint and method, and check for valid crop ID
       const res = await fetch(
         `https://agrosense-server.vercel.app/api/crops/${initialValues._id}`,
         {
@@ -824,7 +823,6 @@ function EditCropForm({ token, initialValues, onClose }) {
       if (res.ok) {
         setSuccess("Crop updated successfully!");
         toast.success("Crop updated successfully!");
-        // Optionally refresh crops here if needed
         onClose();
       } else {
         setError(data.error || "Error updating crop");
@@ -1031,3 +1029,21 @@ function Input({ label, name, value, onChange, type = "text", required }) {
 }
 
 export default MyFarm;
+const express = require('express');
+const router = express.Router();
+const Crop = require('../models/Crop');
+
+// Fix: Add/ensure this route exists for updating a crop by ID
+router.put('/crops/:id', async (req, res) => {
+  try {
+    const crop = await Crop.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!crop) {
+      return res.status(404).json({ error: 'Crop not found' });
+    }
+    res.json(crop);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+module.exports = router;
