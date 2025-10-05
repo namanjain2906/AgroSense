@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { useAppContext } from "../context/AppContext";
 import { toast } from 'react-hot-toast';
+import axios from 'axios';
 import {
   FaLeaf,
   FaHistory,
@@ -316,6 +317,7 @@ const MyFarm = () => {
                     initialValues={editCrop}
                     onClose={() => setEditCrop(null)}
                   />
+                  
                 </div>
               )}
             </div>
@@ -779,6 +781,7 @@ function EditCropForm({ token, initialValues, onClose }) {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Submitting form with values:", form);
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -809,18 +812,18 @@ function EditCropForm({ token, initialValues, onClose }) {
       }
 
       // Fix: Use correct endpoint and method, and check for valid crop ID
-      const res = await fetch(
+      console.log("Updating crop with ID:", initialValues._id);
+      const res = await axios.put(
         `https://agrosense-server.vercel.app/api/crops/${initialValues._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      const data = await res.json();
+        payload, {headers: {
+          
+          Authorization: `Bearer ${token}`,
+        }}
+      );  
+      const data = res.message;
+      console.log(res);
+
+      console.log(initialValues)
       if (res.ok) {
         setSuccess("Crop updated successfully!");
         toast.success("Crop updated successfully!");
@@ -854,7 +857,7 @@ function EditCropForm({ token, initialValues, onClose }) {
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           <Input
-            label="Crop Name"
+            label="Crop Name "
             name="name"
             value={form.name}
             onChange={handleChange}

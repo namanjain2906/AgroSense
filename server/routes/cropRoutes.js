@@ -27,6 +27,7 @@ cropRouter.post('/', authenticate, createCrop);
 cropRouter.put('/crops/:id', async (req, res) => {
   try {
 	// Get userId from JWT (assuming you use authentication middleware)
+	console.log("Request to update crop:", req.params.id);
 	const userId = req.user?._id || req.user?.id;
 	if (!userId) {
 	  return res.status(401).json({ error: 'Unauthorized' });
@@ -42,7 +43,7 @@ cropRouter.put('/crops/:id', async (req, res) => {
 	Object.assign(crop, req.body);
 	await crop.save();
 
-	res.json(crop);
+	res.json({success: true, message: 'Crop updated successfully', crop });
   } catch (err) {
 	res.status(500).json({ error: 'Server error' });
   }
