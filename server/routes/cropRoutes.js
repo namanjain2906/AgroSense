@@ -24,7 +24,7 @@ cropRouter.get('/cropdata', getCropData);
 import { getUserCrops } from '../controllers/cropController.js';
 cropRouter.get('/user', authenticate, getUserCrops);
 cropRouter.post('/', authenticate, createCrop);
-cropRouter.put('/crops/:id', async (req, res) => {
+cropRouter.patch('/crops/:id',authenticate, async (req, res) => {
   try {
 	// Get userId from JWT (assuming you use authentication middleware)
 	console.log("Request to update crop:", req.params.id);

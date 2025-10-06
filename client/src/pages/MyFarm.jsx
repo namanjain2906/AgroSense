@@ -813,7 +813,7 @@ function EditCropForm({ token, initialValues, onClose }) {
 
       // Fix: Use correct endpoint and method, and check for valid crop ID
       console.log("Updating crop with ID:", initialValues._id);
-      const res = await axios.put(
+      const res = await axios.patch(
         `https://agrosense-server.vercel.app/api/crops/${initialValues._id}`,
         payload, {headers: {
           
