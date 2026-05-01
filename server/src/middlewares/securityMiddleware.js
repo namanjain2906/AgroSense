@@ -13,6 +13,10 @@ const parseAllowedOrigins = () => {
     "http://localhost:5173",
     "http://127.0.0.1:3000",
     "http://127.0.0.1:5173",
+    // Common deploy origins (add your deployed frontend here)
+    "https://agrosense-delta.vercel.app",
+    // Render backend origin (in case frontend or requests originate from here)
+    "https://agrosense-x0kh.onrender.com",
     ...productionOrigins,
   ].filter(Boolean);
 };
