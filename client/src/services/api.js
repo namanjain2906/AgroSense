@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Public Axios instance (for login/register)
 export const axiosPublic = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://agrosense-x0kh.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,7 @@ export const axiosPublic = axios.create({
 
 // Private Axios instance with interceptors (used throughout the app)
 export const axiosPrivate = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://agrosense-x0kh.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
