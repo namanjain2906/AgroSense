@@ -57,7 +57,17 @@ export const authLimiter = rateLimit({
 
 export const applySecurityMiddleware = (app) => {
   app.use(helmet());
+  // Attach CORS middleware and explicitly handle preflight OPTIONS requests
   app.use(cors(corsOptions));
+  app.options("*", cors(corsOptions));
+
+  // Log allowed origins for debugging (prints on server start)
+  try {
+    // eslint-disable-next-line no-console
+    console.log("CORS allowed origins:", allowedOrigins);
+  } catch (e) {
+    // ignore logging errors
+  }
   app.use(globalLimiter);
 
   // Must run after parsers so req.body, req.query, and req.params exist.
