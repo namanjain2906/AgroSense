@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --color-primary: #2D5A27;
+  --color-secondary: #4CAF50;
+  --color-tertiary: #C0573E;
+  --color-neutral-base: #757872;
+  --color-background: #F4F5F0;
+  --color-surface: #FFFFFF;
+}
+
+@layer utilities {
+  .bg-radial-gradient {
+    background: radial-gradient(circle, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
+  }
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-neutral-base);
+  font-family: var(--font-sans);
+}
